@@ -1,0 +1,2 @@
+deploymentID,locationID,locationName,latitude,longitude,coordinateUncertainty,deploymentStart,deploymentEnd,setupBy,cameraID,cameraModel,cameraDelay,cameraHeight,cameraDepth,cameraTilt,cameraHeading,detectionDistance,timestampIssues,baitUse,featureType,habitat,deploymentGroups,deploymentTags,deploymentComments
+LearningPlatformBeaver-2024-01-31-Wildlife_Camera,,LearningPlatformBeaver,41.907144,-87.652254,25,2024-01-27T08:39:18-0600,2024-01-31T18:49:13-0600,,,TC-XG2,,,,,,,,,,,,,b

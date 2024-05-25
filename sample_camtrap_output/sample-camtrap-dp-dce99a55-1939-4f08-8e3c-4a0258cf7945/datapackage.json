@@ -1,0 +1,107 @@
+{
+    "id": "dce99a55-1939-4f08-8e3c-4a0258cf7945",
+    "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/camtrap-dp-profile.json",
+    "name": "test-deployment-location-test-camera-test-date",
+    "title": "Urban Rivers - test-CAMERA at test-DEPLOYMENT-LOCATION on test-DATE",
+    "created": "2024-03-09T12:50:07-06:00",
+    "description": "",
+    "version": "1.0",
+    "keywords": [
+        "Urban Rivers",
+        "urban wildlife",
+        "camera traps"
+    ],
+    "image": "",
+    "homepage": "https://www.urbanriv.org",
+    "sources": [],
+    "bibliographicCitation": "",
+    "licenses": [
+        {
+            "name": "CC0-1.0",
+            "scope": "data"
+        },
+        {
+            "path": "http://creativecommons.org/licenses/by/4.0/",
+            "scope": "media"
+        }
+    ],
+    "contributors": [
+        {
+            "title": "test-PHOTOGRAPHER",
+            "role:": "contributor",
+            "organization": "test-PHOTOGRAPHER"
+        },
+        {
+            "title": "Nick Wesley",
+            "email": "team@urbanriv.org",
+            "path": "https://orcid.org/0000-0000",
+            "role": "contact",
+            "organization": "Urban Rivers"
+        },
+        {
+            "title": "Urban Rivers",
+            "path": "https://www.urbanriv.org",
+            "role": "rightsHolder"
+        },
+        {
+            "title": "Urban Rivers",
+            "path": "https://www.urbanriv.org",
+            "role": "publisher"
+        }
+    ],
+    "project": {
+        "title": "Urban Rivers - Camera Trap Project 2024",
+        "id": "dce99a55-1939-4f08-8e3c-4a0258cf7945",
+        "acronym": "",
+        "description": "",
+        "path": "https://www.urbanriv.org",
+        "samplingDesign": "opportunistic",
+        "captureMethod": [
+            "activityDetection",
+            "timeLapse"
+        ],
+        "individualAnimals": false,
+        "observationLevel": [
+            "media",
+            "event"
+        ]
+    },
+    "spatial": {
+        "type": "Point",
+        "coordinates": [
+            41.907144,
+            -87.652254
+        ]
+    },
+    "temporal": {
+        "start": "2024-02-25T00:41:29-0600",
+        "end": "2024-02-25T10:08:41-0600"
+    },
+    "taxonomic": [],
+    "resources": [
+        {
+            "path": "deployments.csv",
+            "name": "deployments",
+            "scheme": "file",
+            "format": "csv",
+            "profile": "tabular-data-resource",
+            "schema": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/deployments-table-schema.json"
+        },
+        {
+            "path": "media.csv",
+            "name": "media",
+            "scheme": "file",
+            "format": "csv",
+            "profile": "tabular-data-resource",
+            "schema": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/media-table-schema.json"
+        },
+        {
+            "path": "observations.csv",
+            "name": "observations",
+            "scheme": "file",
+            "format": "csv",
+            "profile": "tabular-data-resource",
+            "schema": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/observations-table-schema.json"
+        }
+    ]
+}

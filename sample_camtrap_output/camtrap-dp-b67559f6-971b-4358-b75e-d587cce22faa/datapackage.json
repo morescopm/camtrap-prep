@@ -1,0 +1,153 @@
+{
+    "id": "b67559f6-971b-4358-b75e-d587cce22faa",
+    "profile": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/camtrap-dp-profile.json",
+    "name": "learningplatformbeaver-wildlife_camera-2024-01-31",
+    "title": "Urban Rivers - Wildlife_Camera at LearningPlatformBeaver on 2024-01-31",
+    "created": "2024-05-13T09:14:14-06:00",
+    "description": "",
+    "version": "1.0",
+    "keywords": [
+        "Urban Rivers",
+        "urban wildlife",
+        "camera traps"
+    ],
+    "image": "",
+    "homepage": "https://www.urbanriv.org",
+    "sources": [
+        {
+            "title": "sdUploader",
+            "path": "https://github.com/nkwsy/sdUploader"
+        }
+    ],
+    "bibliographicCitation": "",
+    "licenses": [
+        {
+            "name": "CC0-1.0",
+            "scope": "data"
+        },
+        {
+            "path": "http://creativecommons.org/licenses/by/4.0/",
+            "scope": "media"
+        }
+    ],
+    "contributors": [
+        {
+            "title": "Urban Rivers",
+            "role:": "contributor",
+            "organization": "Urban Rivers"
+        },
+        {
+            "title": "Nick Wesley",
+            "email": "team@urbanriv.org",
+            "path": "https://orcid.org/0000-0000",
+            "role": "contact",
+            "organization": "Urban Rivers"
+        },
+        {
+            "title": "Urban Rivers",
+            "path": "https://www.urbanriv.org",
+            "role": "rightsHolder"
+        },
+        {
+            "title": "Urban Rivers",
+            "path": "https://www.urbanriv.org",
+            "role": "publisher"
+        }
+    ],
+    "project": {
+        "title": "Urban Rivers - Camera Trap Project 2024",
+        "id": "b67559f6-971b-4358-b75e-d587cce22faa",
+        "acronym": "",
+        "description": "",
+        "path": "https://www.urbanriv.org",
+        "samplingDesign": "opportunistic",
+        "captureMethod": [
+            "activityDetection",
+            "timeLapse"
+        ],
+        "individualAnimals": false,
+        "observationLevel": [
+            "media",
+            "event"
+        ]
+    },
+    "spatial": {
+        "type": "Point",
+        "coordinates": [
+            41.907144,
+            -87.652254
+        ]
+    },
+    "temporal": {
+        "start": "2024-01-27T08:39:18-0600",
+        "end": "2024-01-31T18:49:13-0600"
+    },
+    "taxonomic": [
+        {
+            "scientificName": "Branta canadensis",
+            "taxonID": "https://www.checklistbank.org/dataset/292011/taxon/5WRC3",
+            "taxonRank": "species",
+            "vernacularNames": {
+                "eng": "Canada Goose"
+            }
+        },
+        {
+            "scientificName": "Anatidae",
+            "taxonID": "https://www.checklistbank.org/dataset/292011/taxon/9H6K5",
+            "taxonRank": "family",
+            "vernacularNames": {
+                "eng": "Duck"
+            }
+        },
+        {
+            "scientificName": "Aves",
+            "taxonID": "https://www.checklistbank.org/dataset/292011/taxon/V2",
+            "taxonRank": "class",
+            "vernacularNames": {
+                "eng": "Bird"
+            }
+        },
+        {
+            "scientificName": "Passeriformes",
+            "taxonID": "https://www.checklistbank.org/dataset/292011/taxon/3RL",
+            "taxonRank": "order",
+            "vernacularNames": {
+                "eng": "Sparrow"
+            }
+        },
+        {
+            "scientificName": "Ondatra zibethicus",
+            "taxonID": "https://www.checklistbank.org/dataset/292011/taxon/49JSC",
+            "taxonRank": "species",
+            "vernacularNames": {
+                "eng": "Muskrat"
+            }
+        }
+    ],
+    "resources": [
+        {
+            "path": "deployments.csv",
+            "name": "deployments",
+            "scheme": "file",
+            "format": "csv",
+            "profile": "tabular-data-resource",
+            "schema": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/deployments-table-schema.json"
+        },
+        {
+            "path": "media.csv",
+            "name": "media",
+            "scheme": "file",
+            "format": "csv",
+            "profile": "tabular-data-resource",
+            "schema": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/media-table-schema.json"
+        },
+        {
+            "path": "observations.csv",
+            "name": "observations",
+            "scheme": "file",
+            "format": "csv",
+            "profile": "tabular-data-resource",
+            "schema": "https://raw.githubusercontent.com/tdwg/camtrap-dp/1.0/observations-table-schema.json"
+        }
+    ]
+}

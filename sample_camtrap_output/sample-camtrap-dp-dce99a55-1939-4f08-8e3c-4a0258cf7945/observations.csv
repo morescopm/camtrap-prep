@@ -1,0 +1,12 @@
+observationID,deploymentID,mediaID,eventID,eventStart,eventEnd,observationLevel,observationType,cameraSetupType,scientificName,count,lifeStage,sex,behavior,individualID,individualPositionRadius,individualPositionAngle,individualSpeed,bboxX,bboxY,bboxWidth,bboxHeight,classificationMethod,classifiedBy,classificationTimestamp,classificationProbability,observationTags,observationComments
+PICT0094_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0094,,2024-02-25T04:30:02-0600,2024-02-25T04:30:02-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,
+PICT0095_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0095,,2024-02-25T09:28:31-0600,2024-02-25T09:28:31-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,
+PICT0097_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0097,,2024-02-25T09:53:21-0600,2024-02-25T09:53:21-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,
+PICT0096_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0096,,2024-02-25T09:33:39-0600,2024-02-25T09:33:39-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,
+PICT0092_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0092,,2024-02-25T04:07:04-0600,2024-02-25T04:07:04-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,
+PICT0093_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0093,,2024-02-25T04:08:48-0600,2024-02-25T04:08:48-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,
+PICT0091_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0091,,2024-02-25T03:44:08-0600,2024-02-25T03:44:08-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,
+PICT0090_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0090,,2024-02-25T00:41:29-0600,2024-02-25T00:41:29-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,
+PICT0100_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0100,,2024-02-25T10:08:41-0600,2024-02-25T10:08:41-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,
+PICT0098_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0098,,2024-02-25T10:04:41-0600,2024-02-25T10:04:41-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,
+PICT0099_1,test-DEPLOYMENT-LOCATION-test-DATE-test-CAMERA,PICT0099,,2024-02-25T10:07:01-0600,2024-02-25T10:07:01-0600,media,unclassified,,,,,,,,,,,,,,,,,,,,

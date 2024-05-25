@@ -1,0 +1,7 @@
+test-LOCATION
+test-CAMERA
+test-DATE
+test-NOTE
+
+File_list
+[]
