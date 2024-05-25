@@ -1,0 +1,16 @@
+__pycache__
+.env
+test_upload/*
+venv/
+temp/
+test*/*
+build/*
+
+token.pickle
+credentials.json
+.DS_Store
+logs
+sdUploader.log
+test_camtrap_output
+test_upload
+test_draft_scripts
