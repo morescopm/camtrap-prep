@@ -11,14 +11,15 @@ from pandas import DataFrame
 
 
 config = dotenv_values()
-camtrap_config_urls = {}
+base_url = f"{config['CAMTRAP_BASE_URL']}/{config['CAMTRAP_VERSION']}"
 
-camtrap_config_urls['base_url'] = f"{config['CAMTRAP_BASE_URL']}/{config['CAMTRAP_VERSION']}"
-camtrap_config_urls['profile_url'] = f"{camtrap_config_urls['base_url']}{config['CAMTRAP_PROFILE']}"
-camtrap_config_urls['deployments'] = f"{camtrap_config_urls['base_url']}{config['CAMTRAP_DEPLOYMENTS_SCHEMA']}"
-camtrap_config_urls['media'] = f"{camtrap_config_urls['base_url']}{config['CAMTRAP_MEDIA_SCHEMA']}"
-camtrap_config_urls['observations'] = f"{camtrap_config_urls['base_url']}{config['CAMTRAP_OBSERVATIONS_SCHEMA']}"
-camtrap_config_urls['output'] = config['CAMTRAP_OUTPUT_DIR']
+camtrap_config_urls = {
+    'profile_url': f"{base_url}{config['CAMTRAP_PROFILE']}",
+    'deployments': f"{base_url}{config['CAMTRAP_DEPLOYMENTS_SCHEMA']}",
+    'media': f"{base_url}{config['CAMTRAP_MEDIA_SCHEMA']}",
+    'observations': f"{base_url}{config['CAMTRAP_OBSERVATIONS_SCHEMA']}",
+    'output': config['CAMTRAP_OUTPUT_DIR']
+}
 
 def get_camtrap_dp_metadata(
         file_path_raw:sd.SdXDevice = None, 
