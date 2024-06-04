@@ -2,7 +2,8 @@
 ''' - from https://gitlab.com/oscf/camtrap-package '''
 
 import json, os, re
-import sdUploader as sd
+# deprecated
+# import sdUploader as sd
 import utils.camtrap_dp_terms as uc
 from dotenv import dotenv_values
 from exiftool import ExifToolHelper
@@ -21,8 +22,9 @@ camtrap_config_urls = {
     'output': config['CAMTRAP_OUTPUT_DIR']
 }
 
+# Typehint 'file_path_raw:sd.SdXDevice = None' Requires sdUploader
 def get_camtrap_dp_metadata(
-        file_path_raw:sd.SdXDevice = None, 
+        file_path_raw = None, 
         # sd_data_entry_info:dict = None,
         resources_prepped:list = None,
         media_table:list = None
@@ -171,8 +173,8 @@ def generate_observations_datasets(
     
     return obs_data
 
-
-def prep_camtrap_dp(file_path_raw:sd.SdXDevice=None):
+# Typehint 'file_path_raw:sd.SdXDevice = None' Requires sdUploader
+def prep_camtrap_dp(file_path_raw=None):
     '''Prep Data from SDuploader media and output it a camtrap-dp dataset'''
     '''
     TODO - reference these functions in main.SDCardUploaderGUI.data_entry_info? 
