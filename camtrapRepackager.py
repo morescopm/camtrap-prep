@@ -3,7 +3,8 @@
 
 import json, os, re
 import pandas as pd
-import sdUploader as sd
+# Deprecated package req
+# import sdUploader as sd
 import utils.camtrap_dp_terms as uc
 import utils.google_drive as ug
 from dotenv import dotenv_values
@@ -13,17 +14,19 @@ from pandas import DataFrame
 
 
 config = dotenv_values()
-camtrap_config_urls = {}
+base_url = f"{config['CAMTRAP_BASE_URL']}/{config['CAMTRAP_VERSION']}"
 
-camtrap_config_urls['base_url'] = f"{config['CAMTRAP_BASE_URL']}/{config['CAMTRAP_VERSION']}"
-camtrap_config_urls['profile_url'] = f"{camtrap_config_urls['base_url']}{config['CAMTRAP_PROFILE']}"
-camtrap_config_urls['deployments'] = f"{camtrap_config_urls['base_url']}{config['CAMTRAP_DEPLOYMENTS_SCHEMA']}"
-camtrap_config_urls['media'] = f"{camtrap_config_urls['base_url']}{config['CAMTRAP_MEDIA_SCHEMA']}"
-camtrap_config_urls['observations'] = f"{camtrap_config_urls['base_url']}{config['CAMTRAP_OBSERVATIONS_SCHEMA']}"
-camtrap_config_urls['output'] = config['CAMTRAP_OUTPUT_DIR']
+camtrap_config_urls = {
+    'profile_url': f"{base_url}{config['CAMTRAP_PROFILE']}",
+    'deployments': f"{base_url}{config['CAMTRAP_DEPLOYMENTS_SCHEMA']}",
+    'media': f"{base_url}{config['CAMTRAP_MEDIA_SCHEMA']}",
+    'observations': f"{base_url}{config['CAMTRAP_OBSERVATIONS_SCHEMA']}",
+    'output': config['CAMTRAP_OUTPUT_DIR']
+}
+
 
 def get_camtrap_dp_metadata(
-        file_path_raw:sd.SdXDevice = None, 
+        file_path_raw = None, 
         # sd_data_entry_info:dict = None,
         resources_prepped:list = None,
         media_table:list = None,
@@ -208,7 +211,7 @@ def repackage_dp(obs_xls_file:str=config['INPUT_OBSERVATION_XLSX'], obs_data_fil
     return prepped_obs_data
 
 
-def prep_camtrap_dp(file_path_raw:sd.SdXDevice=None):
+def prep_camtrap_dp(file_path_raw=None):
     '''Prep Data from SDuploader media and output it a camtrap-dp dataset'''
     '''
     TODO - reference these functions in main.SDCardUploaderGUI.data_entry_info? 
