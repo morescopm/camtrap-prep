@@ -12,8 +12,8 @@ For creating camtrap-dp zip files according to: https://camtrap-dp.tdwg.org/.
 ## Installation
 
 Built with python==3.9.6
-Will need to download and install exiftool at: https://exiftool.org/
-Ensure exiftool.exe lies within PATH.
+Will need to download and install exiftool at: https://exiftool.org/install.html
+Ensure exiftool.exe lies within PATH, if using conda, you can store the exe in your Scripts path.
 
 ### Example Installation Steps
 
@@ -48,11 +48,11 @@ Follow the .env.example file and create a .env file with the desired file paths 
 1. Run the script:
 
    ```sh
-   python camtrapPackager.py
+   python camtrap.py packager
 
    or
 
-   python camtrapRepackager.py
+   python camtrap.py repackager
    ```
 
 ## Contributing
