@@ -39,6 +39,24 @@ Ensure exiftool.exe lies within PATH, if using conda, you can store the exe in y
    conda create -f environment.yml
    ```
 
+4. For repackager - manage Google Application Credentials  
+You will need to activate the Google Drive API in cloud console  
+You may also need to create a cloud project (no billing)  
+Manage the Google Drive API, go to the 
+
+Go to OAuth consent screen:
+
+In the Google Cloud Console, select APIs & Services > OAuth consent screen.
+Fill in the required fields, such as application name, support email, etc.
+Add Test Users:
+
+Scroll down to the Test users section.
+Add the email addresses of users you want to allow access to your app.
+
+Scopes Could Be:
+ 'https://www.googleapis.com/auth/drive.readonly'
+ 'https://www.googleapis.com/auth/drive'
+
 ## Usage
 
 Follow the .env.example file and create a .env file with the desired file paths and destinations.
