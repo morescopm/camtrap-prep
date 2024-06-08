@@ -18,11 +18,8 @@ camtrap_config_urls = {
 
 
 def main():
-    if len(sys.argv) < 2:
+    if len(sys.argv) < 2 or sys.argv[1] not in ['packager', 'repackager']:
         return print("Usage: python camtrap.py [packager | repackager]")
-
-    if sys.argv[1] not in ['packager', 'repackager']:
-        return print(f'You entered: "{sys.argv[1]}", must use packager or repackager')
 
     if sys.argv[1] == 'packager':
         camtrapPackager.prep_camtrap_dp()
