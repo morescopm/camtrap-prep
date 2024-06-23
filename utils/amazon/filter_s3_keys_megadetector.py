@@ -1,13 +1,17 @@
 import sys
 import requests
-import ast
+import uuid
 import pandas as pd
 from PIL import Image
 from PIL.ExifTags import TAGS
 from io import BytesIO
 
-# Usage: python filter_s3_keys.py <deploymentID> <optional: media>
+# Usage: python filter_s3_keys_megadetector.py <optional:merge> <optional: media>
 # IF specifying string 'media' as argv[1] then a media.csv file will be created (slow)
+
+
+# TODO check for file before regenerating
+
 
 def main():
     # Idenfiy bucket and base url
@@ -24,24 +28,23 @@ def main():
     filtered_df, json_df = filter_s3_keys(df_a, filterID)
 
     # Parse the json_df into a csv
-    mega_json = read_mega_json(json_df, base_url)
-
-    if len(sys.argv) > 1 and sys.argv[1] == "verbose":
-        # Save the json_csv
-        mega_json.to_csv(f'./processed/{filterID}_json_verbose.csv', index=False)
-        print(f"Image Observations saved to {filterID}_json_verbose.csv")
-    else:
-        # Save the json_csv
-        mega_json.to_csv(f'./processed/{filterID}_json_details.csv', index=False)
-        print(f"Image Observations saved to {filterID}_json_details.csv")
-
+    mega_df = read_mega_json(json_df, base_url)
+    # Save the mega_csv
+    mega_df.to_csv(f'./processed/{filterID}_json_details.csv', index=False)
+    print(f"JSON Details saved to {filterID}_json_details.csv")
 
     # Generate observation base information for upload to google sheets
     images_df = create_obs_csv(filtered_df, base_url)
-
-    # Save the Images DataFrame to a CSV file
+    # Save the json_csv
     images_df.to_csv(f'./processed/{filterID}_images.csv', index=False)
     print(f"Image Observations saved to {filterID}_images.csv")
+
+    if len(sys.argv) > 1 and sys.argv[1] == 'merge':
+        # Merge json with images
+        merged_df = merge_json_images(images_df, mega_df)
+        # Save the json_csv
+        merged_df.to_csv(f'./processed/{filterID}_json_verbose.csv', index=False)
+        print(f"Merged Images and JSON saved to {filterID}_json_verbose.csv")
 
     
     if len(sys.argv) == 2:
@@ -103,46 +106,47 @@ def read_mega_json(json_df, base_url):
         # Prepare a list to hold the parsed data
         data = []
         
-        if len(sys.argv) > 1 and sys.argv[1] == "verbose":
-        # Iterate over each entry in images_content
-            for item in images_content:
-                file_name = item['file']
-                if 'detections' in item:
-                    detections = item['detections']
+    # Iterate over each entry in images_content
+        for item in images_content:
+            file_name = item['file'].replace('\\','/')
+            if 'detections' in item:
+                detections = item['detections']
 
-                    # Convert the detections string to a list of dictionaries
-                    if len(detections) > 0:
-                        # Split out detection list of dicts            
-                        for detection in detections:
-                            category_num = detection['category']
-                            category = category_mapping.get(category_num, 'Unknown')
-                            conf = detection['conf']
-                            bboxX = detection['bbox'][0]
-                            bboxY = detection['bbox'][1]
-                            bboxWidth = detection['bbox'][2]
-                            bboxHeight = detection['bbox'][3]
-                            
-                            # Append the parsed data to the list
-                            data.append([file_name, category, conf, bboxX, bboxY, bboxWidth, bboxHeight])
-                    else:
-                        data.append([file_name, 'No detections', None, None, None, None, None])
-            
-            # Create a DataFrame from the parsed data
-            df = pd.DataFrame(data, columns=['file', 'category', 'conf', 'bboxX','bboxY','bboxWidth','bboxHeight'])            
-        
-        else:
-            for item in images_content:
-                file_name = item['file']
-                if 'detections' in item:
-                    detections = item['detections']
-                    if len(detections) == 0:
-                        detections = "blank"
+                # Convert the detections string to a list of dictionaries
+                if len(detections) > 0:
+                    # Split out detection list of dicts            
+                    for detection in detections:
+                        category_num = detection['category']
+                        observationType = category_mapping.get(category_num, 'Unknown')
+                        data.append({
+                            'file': file_name,
+                            'observationType': observationType,
+                            'count':'',
+                            'commonName': '',
+                            'scientificName': '',
+                            'lifeStage':'',
+                            'sex': '',
+                            'classifiedBy': 'Megadetector V5',
+                            'classificationTimestamp': '',
+                            'observationComments': '',
+                            'observationLevel': 'media',
+                            'classificationMethod': 'machine',
+                            'classificationProbability': detection['conf'],
+                            'bboxX': detection['bbox'][0],
+                            'bboxY': detection['bbox'][1],
+                            'bboxWidth': detection['bbox'][2],
+                            'bboxHeight': detection['bbox'][3]
+
+                        })
                 else:
-                    detections = "blank"
-                data.append([file_name, detections])
-
-            # Create a DataFrame from the parsed data
-            df = pd.DataFrame(data, columns=['file', 'detections'])
+                    data.append({
+                        'file': file_name,
+                        'observationType': 'blank'
+                    })
+        
+        # Create a DataFrame from the parsed data
+        df = pd.DataFrame(data)            
+        
 
     return df
 
@@ -178,7 +182,7 @@ def create_media_csv(df: pd.DataFrame, base_url: str):
             exif_data = generate_Exif_JSON(key, base_url)
 
         fileName = key.split('/')[-1]
-        deploymentID = key.split('/')[2:-2]
+        deploymentID = key.split('/')[1:-2]
 
         # add a row to media with all of the media information
         media.append({
@@ -257,16 +261,56 @@ def create_obs_csv(df: pd.DataFrame, base_url: str):
         deploymentID = '/'.join(key.split('/')[2:-1])
         if fileType in image_extensions:
             filtered_images.append({
-                'observationID': '', # Assigning an observation ID should happen after observing
+                'observationID': uuid.uuid4(), # Assigning an observation ID should happen after observing
                 'deploymentID': deploymentID,
                 'mediaID': row['ETag'],
                 'filePath': f'{base_url}/{key}'
-
                 })
             
     images_df = pd.DataFrame(filtered_images)
 
     return images_df
+
+def merge_json_images(images_df, json_df):
+    """
+    Merge images_df and json_df based on partial string matching of 'filePath' and 'file'.
+    Include data from both DataFrames in the merged result.
+    """
+    print('Merging datasets')
+
+    # Initialize an empty list to store the merged rows
+    merged_rows = []
+    count_progress = 0
+
+    # Preprocess json_df to create a set of unique partial keys
+    unique_partial_keys = set(json_df['file'])
+
+    # Iterate through each row in images_df
+    for _, row1 in images_df.iterrows():
+        full_key = row1['filePath']
+        count_progress += 1
+        # Update the progress message on the same line
+        print(f'\rFiles Merged: {count_progress}/{len(images_df)}', end='')
+        # Check if any partial key is a substring of the full key
+        for partial_key in unique_partial_keys:
+            if partial_key in full_key:
+                # Add data from both DataFrames to the merged row
+                merged_row = {**row1.to_dict(), **json_df[json_df['file'] == partial_key].iloc[0].to_dict()}
+                merged_rows.append(merged_row)
+
+
+    # Create a DataFrame from the merged rows
+    merged_df = pd.DataFrame(merged_rows)
+    final_df = merged_df.drop(columns=['file'], inplace=True)
+
+    # Print a newline after the progress message
+    print()
+
+    # Print final progress message
+    print(f'Merged Image Paths: {len(merged_df)}')
+
+    return final_df
+
 
 
 if __name__ == "__main__":
