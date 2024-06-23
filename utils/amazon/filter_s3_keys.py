@@ -1,3 +1,4 @@
+import sys
 import requests
 import pandas as pd
 from PIL import Image
@@ -5,12 +6,18 @@ from PIL.ExifTags import TAGS
 from io import BytesIO
 
 # TODO: Read deploymentID from argv
+# Usage: python filter_s3_keys.py <deploymentID> <optional: media>
+# IF specifying string 'media' as argv[1] then a media.csv file will be created (slow)
 
 def main():
     # Idenfiy bucket and base url
     bucket_name = 'urbanriverrangers'
     base_url = f'https://{bucket_name}.s3.amazonaws.com'
-    deploymentID= '2024-06-03_UR011'
+    if len(sys.argv) > 1:
+        filterID = sys.argv[1]
+        # ex '2024-06-03_UR011'
+    else:
+        return print("Error: Specify Deployment ID")
 
     # Read in the master list of all s3_keys
     df_a = pd.read_csv("s3_keys.csv")
@@ -18,33 +25,34 @@ def main():
 
     # Filter the df to only the deploymentID and no sendlist
     # Also only contains images and videos
-    filtered_df = filter_s3_keys(df_a, deploymentID)
+    filtered_df = filter_s3_keys(df_a, filterID)
 
 
     # Generate observation base information for upload to google sheets
-    images_df, videos_df = create_obs_csv(filtered_df, deploymentID, base_url)
+    images_df, videos_df = create_obs_csv(filtered_df, base_url)
 
     # Save the Images DataFrame to a CSV file
-    images_df.to_csv(f'{deploymentID}_images.csv', index=False)
-    print(f"Image Observations saved to {deploymentID}_images.csv")
+    images_df.to_csv(f'./processed/{filterID}_images.csv', index=False)
+    print(f"Image Observations saved to {filterID}_images.csv")
 
     # Save the Videos DataFrame to a CSV file
-    videos_df.to_csv(f'{deploymentID}_videos.csv', index=False)
-    print(f"Video Observations saved to {deploymentID}_videos.csv")
+    videos_df.to_csv(f'./processed/{filterID}_videos.csv', index=False)
+    print(f"Video Observations saved to {filterID}_videos.csv")
     
+    if len(sys.argv) > 2:
+        if sys.argv[2] == 'media':
+            # Generate the media.csv df
+            media_df = create_media_csv(filtered_df, base_url)
 
-    # Generate the media.csv df
-    media_df = create_media_csv(filtered_df, deploymentID, base_url)
-
-    # Save the media DataFrame to a CSV file
-    media_df.to_csv(f'{deploymentID}_media.csv', index=False)
-    print(f"Media Records saved to {deploymentID}_media.csv")
+            # Save the media DataFrame to a CSV file
+            media_df.to_csv(f'{filterID}_media.csv', index=False)
+            print(f"Media Records saved to {filterID}_media.csv")
 
 
     return print('Job Complete')
 
 
-def filter_s3_keys(df: pd.DataFrame, deploymentID: str):
+def filter_s3_keys(df: pd.DataFrame, filterID: str):
     """ 
     Focuses on a specific deployment_id and return the filtered df.
     Ignores all images with sendlist in key path. 
@@ -52,13 +60,15 @@ def filter_s3_keys(df: pd.DataFrame, deploymentID: str):
     # List of valid image and video extensions
     valid_extensions = ('.jpg', '.jpeg', '.mp4', '.mov')
 
-    filter1_df = df[df['Key'].str.contains(deploymentID) & ~df['Key'].str.contains("sendlist")]
+    filter1_df = df[df['Key'].str.contains(filterID) &\
+                     ~df['Key'].str.contains("sendlist") &\
+                          ~df['Key'].str.contains("THUMB")]
     filter2_df = filter1_df[filter1_df['Key'].str.lower().str.endswith(valid_extensions)]
 
     return filter2_df
 
 
-def create_media_csv(df: pd.DataFrame, deploymentID: str, base_url: str):
+def create_media_csv(df: pd.DataFrame, base_url: str):
     """ Generates media.csv file for the deploymentID """
     # mediaID: s3 ETag, or other random unique ID, or s3 'Key'
     # deploymentID	
@@ -93,6 +103,7 @@ def create_media_csv(df: pd.DataFrame, deploymentID: str, base_url: str):
             exif_data = {}
 
         fileName = key.split('/')[-1]
+        deploymentID = key.split('/')[2]
 
         # add a row to media with all of the media information
         media.append({
@@ -151,7 +162,7 @@ def generate_Exif_JSON(key, base_url):
 
 
 
-def create_obs_csv(df: pd.DataFrame, deploymentID: str, base_url: str):
+def create_obs_csv(df: pd.DataFrame, base_url: str):
     """ Generates first 4 columns of observations for google sheets """
     # observationID: None until observations made
     # deploymentID: matches the folder name saved by SDUploader
@@ -170,6 +181,7 @@ def create_obs_csv(df: pd.DataFrame, deploymentID: str, base_url: str):
     for index, row in df.iterrows():
         key = row['Key']
         fileType = key.lower().split('.')[-1]
+        deploymentID = key.split('/')[2]
         if fileType in image_extensions:
             filtered_images.append({
                 'observationID': '', # Assigning an observation ID should happen after observing
