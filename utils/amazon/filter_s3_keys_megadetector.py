@@ -205,14 +205,25 @@ def create_media_csv(df: pd.DataFrame, base_url: str):
     return media_df
 
 def extract_Exif(image):
-    """ returns JSON of Exif Data """
+    """Returns JSON of Exif Data"""
+    # Define the Exif tags you want to exclude
+    tags_to_exclude = [
+        'MakerNote',
+        'UserComment',
+        'ComponentsConfiguration',
+        'FileSource',
+        'SceneType'
+    ]
+
+    # Extract specific parts from the Exif data
     exif_data = {}
     if hasattr(image, '_getexif'):  # Check if image has EXIF data
         exif_info = image._getexif()
         if exif_info is not None:
             for tag, value in exif_info.items():
                 tag_name = TAGS.get(tag, tag)
-                exif_data[tag_name] = value
+                if tag_name not in tags_to_exclude:
+                    exif_data[tag_name] = value
 
     return exif_data
 

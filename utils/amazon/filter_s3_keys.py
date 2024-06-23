@@ -27,6 +27,14 @@ def main():
     # Also only contains images and videos
     filtered_df = filter_s3_keys(df_a, filterID)
 
+    if len(sys.argv) > 2:
+        if sys.argv[2] == 'media':
+            # Generate the media.csv df
+            media_df = create_media_csv(filtered_df, base_url)
+
+            # Save the media DataFrame to a CSV file
+            media_df.to_csv(f'{filterID}_media.csv', index=False)
+            print(f"Media Records saved to {filterID}_media.csv")
 
     # Generate observation base information for upload to google sheets
     images_df, videos_df = create_obs_csv(filtered_df, base_url)
@@ -39,14 +47,6 @@ def main():
     videos_df.to_csv(f'./processed/{filterID}_videos.csv', index=False)
     print(f"Video Observations saved to {filterID}_videos.csv")
     
-    if len(sys.argv) > 2:
-        if sys.argv[2] == 'media':
-            # Generate the media.csv df
-            media_df = create_media_csv(filtered_df, base_url)
-
-            # Save the media DataFrame to a CSV file
-            media_df.to_csv(f'{filterID}_media.csv', index=False)
-            print(f"Media Records saved to {filterID}_media.csv")
 
 
     return print('Job Complete')
@@ -126,14 +126,25 @@ def create_media_csv(df: pd.DataFrame, base_url: str):
     return media_df
 
 def extract_Exif(image):
-    """ returns JSON of Exif Data """
+    """Returns JSON of Exif Data"""
+    # Define the Exif tags you want to exclude
+    tags_to_exclude = [
+        'MakerNote',
+        'UserComment',
+        'ComponentsConfiguration',
+        'FileSource',
+        'SceneType'
+    ]
+
+    # Extract specific parts from the Exif data
     exif_data = {}
     if hasattr(image, '_getexif'):  # Check if image has EXIF data
         exif_info = image._getexif()
         if exif_info is not None:
             for tag, value in exif_info.items():
                 tag_name = TAGS.get(tag, tag)
-                exif_data[tag_name] = value
+                if tag_name not in tags_to_exclude:
+                    exif_data[tag_name] = value
 
     return exif_data
 
