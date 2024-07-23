@@ -7,7 +7,7 @@ from io import BytesIO
 
 # TODO: Read deploymentID from argv
 # Usage: python filter_s3_keys.py <deploymentID> <optional: media>
-# IF specifying string 'media' as argv[1] then a media.csv file will be created (slow)
+# IF specifying string 'media' as argv[2] then a media.csv file will be created (slow)
 
 def main():
     # Idenfiy bucket and base url
