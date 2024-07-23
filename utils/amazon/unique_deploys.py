@@ -25,3 +25,12 @@ for deploymentID in list_deploys:
 # 2024-05-25_WM_Boardwalk_G
 # 2024-06-03_UR011
 # 2024-06-08_WM_Boardwalk_D
+
+## Exported 2024-07-11: 
+# 2024-06-29_WM_Boardwalk_D
+# 2024-06-29_WM_Boardwalk_G
+# 2024-07-06_WM_Boardwalk_G
+# 2024-07-20_WM_Boardwalk_G_UR004
+# 2024-07-20_WM_Boardwalk_D_UR010
+# 2024-07-20_WM_DIS_A_UR016
+# 2024-07-20_WM_DIS_B_UR007
