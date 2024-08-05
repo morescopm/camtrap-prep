@@ -9,3 +9,5 @@ frictionless<=5.16.1
 openpyxl==3.1.2
 pandas==2.2.0
 uuid==1.30
+google-api-python-client==2.131.0
+google-auth-oauthlib==1.2.0
