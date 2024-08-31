@@ -5,7 +5,7 @@ import pandas as pd
 from PIL import Image
 from PIL.ExifTags import TAGS
 from io import BytesIO
-import utils.amazon.read_s3_public as rs3
+import read_s3_public as rs3
 
 # TODO: Read deploymentID from argv
 # Usage: python filter_s3_keys.py <deploymentID> <optional: media>
@@ -77,7 +77,7 @@ def filter_s3_keys(df: pd.DataFrame, filterID: str):
     Ignores all images with sendlist in key path. 
     """
     # List of valid image and video extensions
-    valid_extensions = ('.jpg', '.jpeg', '.mp4', '.mov')
+    valid_extensions = ('.jpg', '.jpeg', '.mp4', '.mov', '.avi')
 
     filter1_df = df[df['Key'].str.contains(filterID) &\
                      ~df['Key'].str.contains("sendlist") &\
@@ -106,7 +106,7 @@ def create_media_csv(df: pd.DataFrame, base_url: str):
 
     # List of valid image and video extensions
     image_extensions = ['jpg', 'jpeg']
-    video_extensions = ['mp4', 'mov']
+    video_extensions = ['mp4', 'mov', 'avi']
 
     media = []
     for index, row in df.iterrows():
@@ -203,7 +203,7 @@ def create_obs_csv(df: pd.DataFrame, base_url: str):
 
     # List of valid image and video extensions
     image_extensions = ['jpg', 'jpeg']
-    video_extensions = ['mp4', 'mov']
+    video_extensions = ['mp4', 'mov', 'avi']
 
     filtered_images = []
     filtered_videos = []
